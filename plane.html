@@ -20,10 +20,22 @@
       font-size: 2.3rem;
       color: #58a6ff;
     }
-    nav a {
-      color: #58a6ff;
-      font-weight: bold;
+    nav {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .back-button {
+      display: inline-block;
+      background-color: #238636;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
       text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.2s;
+    }
+    .back-button:hover {
+      background-color: #2ea043;
     }
     .grid {
       display: grid;
@@ -68,8 +80,11 @@
   <header>
     <h1>🟦 Plane Geometry</h1>
     <p>Select a shape to start calculating!</p>
-    <nav><a href="index.html">⬅ Back to Home</a></nav>
   </header>
+
+  <nav>
+    <a href="index.html" class="back-button">⬅ Back to Home</a>
+  </nav>
 
   <section class="grid">
     <a href="plane_circle.html" class="card">

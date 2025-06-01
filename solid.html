@@ -15,6 +15,23 @@
     header {
       text-align: center;
     }
+    nav {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .back-button {
+      display: inline-block;
+      background-color: #238636;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.2s;
+    }
+    .back-button:hover {
+      background-color: #2ea043;
+    }
     .card-container {
       display: flex;
       flex-wrap: wrap;
@@ -48,6 +65,10 @@
     <h1>🔷 Solid Geometry Explorer</h1>
     <p>Explore 3D shapes through interactive visualizations and calculations.</p>
   </header>
+
+  <nav>
+    <a href="index.html" class="back-button">⬅ Back to Home</a>
+  </nav>
 
   <div class="card-container">
     <a class="card" href="cube.html">

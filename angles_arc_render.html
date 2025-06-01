@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +14,23 @@
     h1 {
       text-align: center;
       color: #58a6ff;
+    }
+    nav {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .back-button {
+      display: inline-block;
+      background-color: #238636;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.2s;
+    }
+    .back-button:hover {
+      background-color: #2ea043;
     }
     .angle-box {
       display: flex;
@@ -73,6 +89,11 @@
 </head>
 <body>
   <h1>🧭 Types of Angles</h1>
+
+  <nav>
+    <a href="angles.html" class="back-button">⬅ Back to Angles</a>
+  </nav>
+
   <div class="input-card">
     <h2>Angle Classifier</h2>
     <p>Enter an angle in degrees to see its classification and shape</p>
