@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>⛺ Triangular Prism Visualizer</title>
+  <style>
+    body {
+      background: #0d1117;
+      color: #f0f6fc;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 2rem;
+      margin: 0;
+    }
+    .container {
+      background: #161b22;
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 1000px;
+      margin: auto;
+    }
+    h1 {
+      color: #58a6ff;
+      text-align: center;
+    }
+    input, button {
+      margin: 1rem 0;
+      padding: 0.6rem;
+      width: 100%;
+      max-width: 300px;
+      border-radius: 5px;
+      border: none;
+    }
+    input {
+      background: #21262d;
+      color: white;
+    }
+    button {
+      background: #238636;
+      color: white;
+      cursor: pointer;
+    }
+    .output, .info {
+      background: #21262d;
+      padding: 1rem;
+      margin-top: 1rem;
+      border-radius: 5px;
+    }
+    svg {
+      display: block;
+      margin: 2rem auto;
+    }
+    .formula {
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>⛺ Triangular Prism Visualizer</h1>
+    <div class="info">
+      <p><strong>What is a Triangular Prism?</strong></p>
+      <p>A triangular prism is a 3D shape formed by extruding a triangle. It has 2 triangular faces and 3 rectangular faces.</p>
+      <ul>
+        <li>🔺 <strong>Faces</strong>: 2 triangles + 3 rectangles</li>
+        <li class="formula">📦 <strong>Volume</strong> = ½ × base × height × length</li>
+      </ul>
+    </div>
+
+    <label for="base">Enter base of triangle (cm):</label>
+    <input type="number" id="base" placeholder="e.g. 6" />
+    <label for="triHeight">Enter height of triangle (cm):</label>
+    <input type="number" id="triHeight" placeholder="e.g. 4" />
+    <label for="length">Enter prism length (cm):</label>
+    <input type="number" id="length" placeholder="e.g. 8" />
+    <button onclick="calculatePrism()">Calculate & Visualize</button>
+
+    <div id="svg-prism"></div>
+    <div class="output" id="result"></div>
+  </div>
+
+  <script>
+    function calculatePrism() {
+      const b = parseFloat(document.getElementById('base').value);
+      const h = parseFloat(document.getElementById('triHeight').value);
+      const l = parseFloat(document.getElementById('length').value);
+      const output = document.getElementById('result');
+      const svgDiv = document.getElementById('svg-prism');
+
+      if (isNaN(b) || b <= 0 || isNaN(h) || h <= 0 || isNaN(l) || l <= 0) {
+        output.innerText = "❌ Please enter valid positive numbers for all dimensions.";
+        svgDiv.innerHTML = "";
+        return;
+      }
+
+      const volume = 0.5 * b * h * l;
+      output.innerText = `✅ Volume = ${volume.toFixed(2)} cm³`;
+
+      const svg = `
+        <svg width="1200" height="380">
+          <!-- Left: Extrusion -->
+          <g transform="translate(20, 40)">
+            <polygon points="0,100 ${b*10},100 ${(b*10)/2},${100 - h*10}" fill="#58a6ff" opacity="0.6"/>
+            <polygon points="0,180 ${b*10},180 ${(b*10)/2},${180 - h*10}" fill="#58a6ff" opacity="0.3"/>
+            <line x1="0" y1="100" x2="0" y2="180" stroke="#f0f6fc" stroke-dasharray="4"/>
+            <line x1="${b*10}" y1="100" x2="${b*10}" y2="180" stroke="#f0f6fc" stroke-dasharray="4"/>
+            <line x1="${(b*10)/2}" y1="${100 - h*10}" x2="${(b*10)/2}" y2="${180 - h*10}" stroke="#f0f6fc" stroke-dasharray="4"/>
+            <text x="10" y="90" fill="#f0f6fc" font-size="12">Extruded Triangle</text>
+          </g>
+
+          <!-- Middle: 3D View -->
+          <g transform="translate(420, 40)">
+            <polygon points="0,100 ${b*10},100 ${(b*10)/2},${100 - h*10}" fill="#58a6ff" opacity="0.8"/>
+            <polygon points="0,100 0,180 ${(b*10)/2},${180 - h*10} ${(b*10)/2},${100 - h*10}" fill="#1f6feb" opacity="0.7"/>
+            <polygon points="${b*10},100 ${b*10},180 ${(b*10)/2},${180 - h*10} ${(b*10)/2},${100 - h*10}" fill="#316dca" opacity="0.7"/>
+            <polygon points="0,180 ${b*10},180 ${(b*10)/2},${180 - h*10}" fill="#58a6ff" opacity="0.4"/>
+            <text x="${(b*10)/2 + 5}" y="70" fill="#f0f6fc" font-size="12">b = ${b} cm</text>
+            <text x="${b*10 + 10}" y="140" fill="#f0f6fc" font-size="12">h = ${h} cm</text>
+            <text x="${(b*10)/2}" y="200" fill="#f0f6fc" font-size="12">l = ${l} cm</text>
+          </g>
+
+          <!-- Right: Net View -->
+          <g transform="translate(850, 40)">
+            <polygon points="0,0 ${b*10},0 ${(b*10)/2},${-h*10}" fill="#58a6ff" opacity="0.5"/>
+            <polygon points="0,${l*10} ${b*10},${l*10} ${(b*10)/2},${l*10 - h*10}" fill="#58a6ff" opacity="0.5"/>
+            <rect x="0" y="0" width="${b*10}" height="${l*10}" fill="#1f6feb" opacity="0.3"/>
+            <text x="0" y="-10" fill="#f0f6fc" font-size="12">Triangle</text>
+            <text x="0" y="${l*10 + 15}" fill="#f0f6fc" font-size="12">Base + Side View</text>
+          </g>
+        </svg>
+      `;
+      svgDiv.innerHTML = svg;
+    }
+  </script>
+</body>
+</html>

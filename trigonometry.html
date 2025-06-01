@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>📐 Trigonometry Visualizer</title>
+  <style>
+    body {
+      background-color: #0d1117;
+      color: #f0f6fc;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 2rem;
+    }
+    .container {
+      background-color: #161b22;
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 850px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      color: #58a6ff;
+    }
+    input, button {
+      padding: 0.6rem;
+      margin-top: 1rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+    }
+    input {
+      width: 100px;
+      background: #21262d;
+      color: white;
+    }
+    button {
+      background-color: #238636;
+      color: white;
+      cursor: pointer;
+    }
+    .output {
+      background: #21262d;
+      padding: 1rem;
+      margin-top: 1rem;
+      border-radius: 5px;
+      text-align: center;
+    }
+    canvas {
+      background: #21262d;
+      border-radius: 8px;
+      display: block;
+      margin: 2rem auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📐 Trigonometry Visualizer</h1>
+    <p>Input an angle (in degrees) and hypotenuse length to visualize a right triangle and calculate sine, cosine, and tangent.</p>
+
+    <label for="angle">θ (degrees):</label>
+    <input type="number" id="angle" value="30" />
+    <label for="hypotenuse">Hypotenuse (cm):</label>
+    <input type="number" id="hypotenuse" value="10" />
+    <button onclick="drawTriangle()">Visualize</button>
+
+    <canvas id="triangleCanvas" width="600" height="350"></canvas>
+    <div class="output" id="results"></div>
+  </div>
+
+  <script>
+    function drawTriangle() {
+      const angleDeg = parseFloat(document.getElementById("angle").value);
+      const hypotenuse = parseFloat(document.getElementById("hypotenuse").value);
+      const canvas = document.getElementById("triangleCanvas");
+      const ctx = canvas.getContext("2d");
+      const output = document.getElementById("results");
+
+      if (isNaN(angleDeg) || isNaN(hypotenuse) || angleDeg <= 0 || angleDeg >= 90 || hypotenuse <= 0) {
+        output.innerHTML = "<p style='color:red;'>Please enter a valid angle (0–90°) and hypotenuse > 0.</p>";
+        return;
+      }
+
+      const angleRad = angleDeg * Math.PI / 180;
+      const opp = hypotenuse * Math.sin(angleRad);
+      const adj = hypotenuse * Math.cos(angleRad);
+      const sin = opp / hypotenuse;
+      const cos = adj / hypotenuse;
+      const tan = opp / adj;
+
+      const ox = 100, oy = 300;
+      const scale = 12;
+      const ax = ox + adj * scale;
+      const ay = oy;
+      const tx = ox;
+      const ty = oy - opp * scale;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw triangle
+      ctx.beginPath();
+      ctx.moveTo(ox, oy);
+      ctx.lineTo(ax, ay);
+      ctx.lineTo(tx, ty);
+      ctx.closePath();
+      ctx.fillStyle = "#58a6ff";
+      ctx.globalAlpha = 0.7;
+      ctx.fill();
+      ctx.globalAlpha = 1.0;
+      ctx.strokeStyle = "#f0f6fc";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Right angle square
+      ctx.beginPath();
+      ctx.moveTo(ox, oy);
+      ctx.lineTo(ox + 20, oy);
+      ctx.lineTo(ox + 20, oy - 20);
+      ctx.lineTo(ox, oy - 20);
+      ctx.closePath();
+      ctx.fillStyle = "#f0f6fc";
+      ctx.globalAlpha = 0.2;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+
+      // Labels
+      ctx.fillStyle = "#f0f6fc";
+      ctx.font = "14px Segoe UI";
+      ctx.fillText(`θ = ${angleDeg}°`, ox + 10, oy - 10);
+      ctx.fillText(`Opposite = ${opp.toFixed(2)} cm`, ox - 85, oy - opp * scale / 2);
+      ctx.fillText(`Adjacent = ${adj.toFixed(2)} cm`, ox + adj * scale / 2 - 30, oy + 20);
+      ctx.fillText(`Hypotenuse = ${hypotenuse.toFixed(2)} cm`, ox + adj * scale / 2, oy - opp * scale / 2);
+
+      // Result
+      output.innerHTML = `
+        <p>✅ <strong>sin(θ)</strong> = ${sin.toFixed(3)} |
+        <strong>cos(θ)</strong> = ${cos.toFixed(3)} |
+        <strong>tan(θ)</strong> = ${tan.toFixed(3)}</p>
+        <p>📐 Opp = ${opp.toFixed(2)} cm, Adj = ${adj.toFixed(2)} cm, Hyp = ${hypotenuse.toFixed(2)} cm</p>
+      `;
+    }
+
+    drawTriangle();
+  </script>
+</body>
+</html>

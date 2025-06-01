@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>◼️ Cube Visualizer</title>
+  <style>
+    body {
+      background: #0d1117;
+      color: #f0f6fc;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 2rem;
+      margin: 0;
+    }
+    .container {
+      background: #161b22;
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 900px;
+      margin: auto;
+    }
+    h1 {
+      color: #58a6ff;
+      text-align: center;
+    }
+    input, button {
+      margin: 1rem 0;
+      padding: 0.6rem;
+      width: 100%;
+      max-width: 300px;
+      border-radius: 5px;
+      border: none;
+    }
+    input {
+      background: #21262d;
+      color: white;
+    }
+    button {
+      background: #238636;
+      color: white;
+      cursor: pointer;
+    }
+    .output, .info {
+      background: #21262d;
+      padding: 1rem;
+      margin-top: 1rem;
+      border-radius: 5px;
+    }
+    svg {
+      display: block;
+      margin: 2rem auto;
+    }
+    .formula {
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>◼️ Cube Visualizer</h1>
+    <div class="info">
+      <p><strong>What is a Cube?</strong></p>
+      <p>A cube is a 3D shape made by <strong>extruding a square</strong>. All edges are equal. It has 6 square faces, 12 edges, and 8 vertices.</p>
+      <ul>
+        <li>📏 <strong>Edges</strong>: 12 equal edges</li>
+        <li>📐 <strong>Faces</strong>: 6 square faces</li>
+        <li>🧩 <strong>Vertices</strong>: 8 corners</li>
+        <li class="formula">📦 <strong>Volume</strong> = side³</li>
+        <li class="formula">🧮 <strong>Surface Area</strong> = 6 × side²</li>
+      </ul>
+    </div>
+
+    <label for="side">Enter side length (cm):</label>
+    <input type="number" id="side" placeholder="e.g. 5" />
+    <button onclick="calculateCube()">Calculate & Visualize</button>
+
+    <div id="svg-cube"></div>
+    <div class="output" id="result"></div>
+  </div>
+
+  <script>
+    function calculateCube() {
+      const s = parseFloat(document.getElementById('side').value);
+      const output = document.getElementById('result');
+      const svgDiv = document.getElementById('svg-cube');
+      if (isNaN(s) || s <= 0) {
+        output.innerText = "❌ Please enter a valid side length.";
+        svgDiv.innerHTML = "";
+        return;
+      }
+
+      const volume = s ** 3;
+      const surfaceArea = 6 * (s ** 2);
+      output.innerText = `✅ Volume = ${volume.toFixed(2)} cm³ | Surface Area = ${surfaceArea.toFixed(2)} cm²`;
+
+      const size = 100;
+      const offset = 60;
+      const svg = `
+        <svg width="600" height="320">
+          <!-- Extrusion explanation -->
+          <rect x="20" y="50" width="60" height="60" fill="#58a6ff" opacity="0.6"/>
+          <rect x="20" y="130" width="60" height="60" fill="#58a6ff" opacity="0.3"/>
+          <line x1="20" y1="50" x2="20" y2="130" stroke="#f0f6fc" stroke-dasharray="4"/>
+          <line x1="80" y1="50" x2="80" y2="130" stroke="#f0f6fc" stroke-dasharray="4"/>
+          <text x="10" y="45" fill="#f0f6fc" font-size="12">Top square</text>
+          <text x="10" y="210" fill="#f0f6fc" font-size="12">Cube = extruded square</text>
+
+          <!-- 3D Cube View -->
+<g transform="translate(200, 0)">
+          <polygon points="${offset},${offset} ${offset + size},${offset} ${offset + size + 20},${offset + 20} ${offset + 20},${offset + 20}" fill="#58a6ff" opacity="0.7"/>
+          <polygon points="${offset},${offset} ${offset},${offset + size} ${offset + 20},${offset + size + 20} ${offset + 20},${offset + 20}" fill="#1f6feb" opacity="0.7"/>
+          <polygon points="${offset + size},${offset} ${offset + size},${offset + size} ${offset + size + 20},${offset + size + 20} ${offset + size + 20},${offset + 20}" fill="#1f6feb" opacity="0.7"/>
+          <polygon points="${offset},${offset + size} ${offset + size},${offset + size} ${offset + size + 20},${offset + size + 20} ${offset + 20},${offset + size + 20}" fill="#58a6ff" opacity="0.5"/>
+          <line x1="${offset}" y1="${offset}" x2="${offset + size}" y2="${offset}" stroke="#f0f6fc" stroke-dasharray="4"/>
+          <text x="${offset + size / 2 - 10}" y="${offset - 8}" fill="#f0f6fc" font-size="12">Side = ${s} cm</text>
+        </g>
+</svg>
+      `;
+      svgDiv.innerHTML = svg;
+    }
+  </script>
+</body>
+</html>

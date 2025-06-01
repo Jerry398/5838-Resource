@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Plane Geometry</title>
+  <style>
+    body {
+      background-color: #0d1117;
+      color: #f0f6fc;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 2rem;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    header h1 {
+      font-size: 2.3rem;
+      color: #58a6ff;
+    }
+    nav a {
+      color: #58a6ff;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background-color: #161b22;
+      padding: 1.5rem;
+      border-radius: 10px;
+      text-align: center;
+      text-decoration: none;
+      color: #f0f6fc;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: transform 0.2s, background-color 0.2s;
+    }
+    .card:hover {
+      transform: scale(1.03);
+      background-color: #21262d;
+    }
+    .emoji {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+    h3 {
+      margin: 0.3rem 0;
+      color: #58a6ff;
+    }
+    footer {
+      margin-top: 3rem;
+      background-color: #161b22;
+      padding: 1.5rem;
+      border-radius: 10px;
+    }
+    footer p {
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🟦 Plane Geometry</h1>
+    <p>Select a shape to start calculating!</p>
+    <nav><a href="index.html">⬅ Back to Home</a></nav>
+  </header>
+
+  <section class="grid">
+    <a href="plane_circle.html" class="card">
+      <div class="emoji">⚪</div>
+      <h3>Circle</h3>
+      <p>Area & Circumference</p>
+    </a>
+    <a href="plane_rectangle.html" class="card">
+      <div class="emoji">▭</div>
+      <h3>Rectangle</h3>
+      <p>Area & Perimeter</p>
+    </a>
+    <a href="plane_square.html" class="card">
+      <div class="emoji">◼️</div>
+      <h3>Square</h3>
+      <p>Area & Perimeter</p>
+    </a>
+    <a href="plane_triangle.html" class="card">
+      <div class="emoji">🔺</div>
+      <h3>Triangle</h3>
+      <p>Area & Perimeter</p>
+    </a>
+    <!-- 可拓展更多图形 -->
+  </section>
+
+  <footer>
+    <p>This page lets students choose 2D shapes and explore their dimensions through interactive forms.</p>
+  </footer>
+
+</body>
+</html>

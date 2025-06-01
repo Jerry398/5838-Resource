@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title📦> Rectangular Prism Visualizer</title>
+  <style>
+    body {
+      background: #0d1117;
+      color: #f0f6fc;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 2rem;
+      margin: 0;
+    }
+    .container {
+      background: #161b22;
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 960px;
+      margin: auto;
+    }
+    h1 {
+      color: #58a6ff;
+      text-align: center;
+    }
+    input, button {
+      margin: 1rem 0;
+      padding: 0.6rem;
+      width: 100%;
+      max-width: 300px;
+      border-radius: 5px;
+      border: none;
+    }
+    input {
+      background: #21262d;
+      color: white;
+    }
+    button {
+      background: #238636;
+      color: white;
+      cursor: pointer;
+    }
+    .output, .info {
+      background: #21262d;
+      padding: 1rem;
+      margin-top: 1rem;
+      border-radius: 5px;
+    }
+    svg {
+      display: block;
+      margin: 2rem auto;
+    }
+    .formula {
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📦 Rectangular Prism Visualizer</h1>
+    <div class="info">
+      <p><strong>What is a Rectangular Prism?</strong></p>
+      <p>A rectangular prism is a solid shape formed by extruding a rectangle. It has 6 faces, 12 edges, and 8 vertices. All its angles are right angles, and opposite faces are equal.</p>
+      <ul>
+        <li>🔲 <strong>Faces</strong>: 6 rectangles</li>
+        <li>📐 <strong>Right angles</strong>: All interior angles are 90°</li>
+        <li class="formula">📦 <strong>Volume</strong> = length × width × height</li>
+        <li class="formula">🧮 <strong>Surface Area</strong> = 2(lw + lh + wh)</li>
+      </ul>
+    </div>
+
+    <label for="length">Enter length (cm):</label>
+    <input type="number" id="length" placeholder="e.g. 5" />
+    <label for="width">Enter width (cm):</label>
+    <input type="number" id="width" placeholder="e.g. 3" />
+    <label for="height">Enter height (cm):</label>
+    <input type="number" id="height" placeholder="e.g. 4" />
+    <button onclick="calculatePrism()">Calculate & Visualize</button>
+
+    <div id="svg-prism"></div>
+    <div class="output" id="result"></div>
+  </div>
+
+  <script>
+    function calculatePrism() {
+      const l = parseFloat(document.getElementById('length').value);
+      const w = parseFloat(document.getElementById('width').value);
+      const h = parseFloat(document.getElementById('height').value);
+      const output = document.getElementById('result');
+      const svgDiv = document.getElementById('svg-prism');
+      if (isNaN(l) || l <= 0 || isNaN(w) || w <= 0 || isNaN(h) || h <= 0) {
+        output.innerText = "❌ Please enter valid positive numbers for all dimensions.";
+        svgDiv.innerHTML = "";
+        return;
+      }
+
+      const volume = l * w * h;
+      const surfaceArea = 2 * (l * w + l * h + w * h);
+      output.innerText = `✅ Volume = ${volume.toFixed(2)} cm³ | Surface Area = ${surfaceArea.toFixed(2)} cm²`;
+
+      const svg = `
+        <svg width="650" height="300">
+          <!-- Left: extrusion -->
+          <rect x="80" y="100" width="100" height="60" fill="#58a6ff" opacity="0.6"/>
+          <rect x="80" y="30" width="100" height="60" fill="#58a6ff" opacity="0.4"/>
+          <line x1="80" y1="100" x2="80" y2="30" stroke="#f0f6fc" stroke-dasharray="4"/>
+          <line x1="180" y1="100" x2="180" y2="30" stroke="#f0f6fc" stroke-dasharray="4"/>
+          <text x="50" y="25" fill="#f0f6fc" font-size="12">Extruded Rectangle</text>
+
+          <!-- Right: 3D View -->
+          <g transform="translate(260, 0)">
+            <polygon points="100,100 180,100 200,120 120,120" fill="#58a6ff" opacity="0.7"/>
+            <polygon points="100,100 100,180 120,200 120,120" fill="#1f6feb" opacity="0.7"/>
+            <polygon points="180,100 180,180 200,200 200,120" fill="#316dca" opacity="0.6"/>
+            <polygon points="100,180 180,180 200,200 120,200" fill="#58a6ff" opacity="0.4"/>
+            <text x="135" y="95" fill="#f0f6fc" font-size="12">w = ${w} cm</text>
+            <text x="185" y="150" fill="#f0f6fc" font-size="12">h = ${h} cm</text>
+            <text x="135" y="210" fill="#f0f6fc" font-size="12">l = ${l} cm</text>
+          </g>
+        </svg>
+      `;
+      svgDiv.innerHTML = svg;
+    }
+  </script>
+</body>
+</html>

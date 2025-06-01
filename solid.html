@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🔷 Solid Geometry Hub</title>
+  <style>
+    body {
+      background-color: #0d1117;
+      color: #f0f6fc;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 2rem;
+    }
+    header {
+      text-align: center;
+    }
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 2rem;
+      gap: 1.5rem;
+    }
+    .card {
+      background-color: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      width: 240px;
+      text-align: center;
+      padding: 1rem;
+      transition: 0.3s;
+      text-decoration: none;
+      color: #f0f6fc;
+    }
+    .card:hover {
+      border-color: #58a6ff;
+      transform: scale(1.03);
+    }
+    .emoji {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🔷 Solid Geometry Explorer</h1>
+    <p>Explore 3D shapes through interactive visualizations and calculations.</p>
+  </header>
+
+  <div class="card-container">
+    <a class="card" href="cube.html">
+      <div class="emoji">◼️</div>
+      <h3>Cube</h3>
+      <p>All sides equal. Volume = side³</p>
+    </a>
+    <a class="card" href="cylinder.html">
+      <div class="emoji">🪣</div>
+      <h3>Cylinder</h3>
+      <p>Volume = π × r² × h</p>
+    </a>
+    <a class="card" href="rectangular_prism.html">
+      <div class="emoji">📦</div>
+      <h3>Rectangular Prism</h3>
+      <p>Volume = l × w × h</p>
+    </a>
+    <a class="card" href="triangular_prism.html">
+      <div class="emoji">⛺️</div>
+      <h3>Triangular Prism</h3>
+      <p>Volume = ½ × b × h × l</p>
+    </a>
+    <a class="card" href="sphere.html">
+      <div class="emoji">⚽️</div>
+      <h3>Sphere</h3>
+      <p>Volume = 4/3 × π × r³</p>
+    </a>
+  </div>
+</body>
+</html>

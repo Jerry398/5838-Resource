@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🧃 Cylinder Visualizer</title>
+  <style>
+    body {
+      background: #0d1117;
+      color: #f0f6fc;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 2rem;
+      margin: 0;
+    }
+    .container {
+      background: #161b22;
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 1000px;
+      margin: auto;
+    }
+    h1 {
+      color: #58a6ff;
+      text-align: center;
+    }
+    input, button {
+      margin: 1rem 0;
+      padding: 0.6rem;
+      width: 100%;
+      max-width: 300px;
+      border-radius: 5px;
+      border: none;
+    }
+    input {
+      background: #21262d;
+      color: white;
+    }
+    button {
+      background: #238636;
+      color: white;
+      cursor: pointer;
+    }
+    .output, .info {
+      background: #21262d;
+      padding: 1rem;
+      margin-top: 1rem;
+      border-radius: 5px;
+    }
+    svg {
+      display: block;
+      margin: 2rem auto;
+    }
+    .formula {
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🧃 Cylinder Visualizer</h1>
+    <div class="info">
+      <p><strong>What is a Cylinder?</strong></p>
+      <p>A cylinder is a 3D shape formed by extruding a circle. It has 2 circular bases and 1 curved rectangular surface.</p>
+      <ul>
+        <li>🔵 <strong>Faces</strong>: 2 circles + 1 curved rectangle</li>
+        <li class="formula">📦 <strong>Volume</strong> = π × r² × h</li>
+        <li class="formula">🧮 <strong>Surface Area</strong> = 2πr² + 2πrh</li>
+      </ul>
+    </div>
+
+    <label for="radius">Enter radius (cm):</label>
+    <input type="number" id="radius" placeholder="e.g. 4" />
+    <label for="height">Enter height (cm):</label>
+    <input type="number" id="height" placeholder="e.g. 10" />
+    <button onclick="calculateCylinder()">Calculate & Visualize</button>
+
+    <div id="svg-cylinder"></div>
+    <div class="output" id="result"></div>
+  </div>
+
+  <script>
+    function calculateCylinder() {
+      const r = parseFloat(document.getElementById('radius').value);
+      const h = parseFloat(document.getElementById('height').value);
+      const output = document.getElementById('result');
+      const svgDiv = document.getElementById('svg-cylinder');
+      if (isNaN(r) || r <= 0 || isNaN(h) || h <= 0) {
+        output.innerText = "❌ Please enter valid positive numbers for radius and height.";
+        svgDiv.innerHTML = "";
+        return;
+      }
+
+      const pi = Math.PI;
+      const volume = pi * r * r * h;
+      const surfaceArea = 2 * pi * r * r + 2 * pi * r * h;
+      output.innerText = `✅ Volume = ${volume.toFixed(2)} cm³ | Surface Area = ${surfaceArea.toFixed(2)} cm²`;
+
+      const circumference = (2 * pi * r).toFixed(0);
+      const svg = `
+        <svg width="1100" height="360">
+          <!-- Left: Extrusion -->
+          <g transform="translate(20, 0)">
+            <ellipse cx="100" cy="70" rx="${r * 10}" ry="15" fill="#58a6ff" opacity="0.6"/>
+            <ellipse cx="100" cy="${70 + h * 10}" rx="${r * 10}" ry="15" fill="#58a6ff" opacity="0.3"/>
+            <line x1="${100 - r * 10}" y1="70" x2="${100 - r * 10}" y2="${70 + h * 10}" stroke="#f0f6fc" stroke-dasharray="4"/>
+            <line x1="${100 + r * 10}" y1="70" x2="${100 + r * 10}" y2="${70 + h * 10}" stroke="#f0f6fc" stroke-dasharray="4"/>
+            <text x="50" y="60" fill="#f0f6fc" font-size="12">Extruded Circle</text>
+          </g>
+
+          <!-- Middle: Perspective -->
+          <g transform="translate(360, 0)">
+            <ellipse cx="100" cy="100" rx="40" ry="15" fill="#58a6ff" opacity="0.8"/>
+            <path d="M60,100 L60,200 A40,15 0 0,0 140,200 L140,100" fill="#1f6feb" opacity="0.7"/>
+            <ellipse cx="100" cy="200" rx="40" ry="15" fill="#58a6ff" opacity="0.5"/>
+            <line x1="140" y1="100" x2="140" y2="200" stroke="#f0f6fc" stroke-dasharray="4"/>
+            <line x1="100" y1="85" x2="140" y2="85" stroke="#f0f6fc" stroke-dasharray="4"/>
+            <text x="145" y="150" fill="#f0f6fc" font-size="12">h = ${h} cm</text>
+            <text x="105" y="82" fill="#f0f6fc" font-size="12">r = ${r} cm</text>
+          </g>
+
+          <!-- Right: Net -->
+          <g transform="translate(760, 0)">
+            <circle cx="60" cy="60" r="${r * 10}" fill="#58a6ff" opacity="0.5"/>
+            <rect y="120" width="${circumference * 5}" height="${h * 10}" fill="#1f6feb" opacity="0.5"/>
+            <circle cx="60" cy="270" r="${r * 10}" fill="#58a6ff" opacity="0.5"/>
+            <text x="0" y="15" fill="#f0f6fc" font-size="12">Top Circle</text>
+            <text x="0" y="115" fill="#f0f6fc" font-size="12">Side (Rectangle)</text>
+            <text x="0" y="325" fill="#f0f6fc" font-size="12">Bottom Circle</text>
+          </g>
+        </svg>
+      `;
+      svgDiv.innerHTML = svg;
+    }
+  </script>
+</body>
+</html>

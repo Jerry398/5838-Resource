@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔺 Triangle Visualizer</title>
+  <style>
+    body { background: #0d1117; color: #f0f6fc; font-family: 'Segoe UI', sans-serif; padding: 2rem; }
+    .container { max-width: 700px; margin: auto; background: #161b22; padding: 2rem; border-radius: 8px; }
+    input, button { margin: 10px 0; padding: 8px; border-radius: 5px; border: none; width: 100%; max-width: 300px; }
+    input { background: #21262d; color: white; }
+    button { background: #238636; color: white; cursor: pointer; }
+    canvas { margin-top: 2rem; background: #0d1117; border: 1px solid #58a6ff; }
+    .info, .output { background: #21262d; padding: 1rem; margin-top: 1rem; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔺 Triangle Visualizer</h1>
+    <div class="info">
+      <p><strong>What is a Triangle?</strong> A triangle is a polygon with 3 edges and 3 vertices. The area of a triangle is calculated by:</p>
+      <p><strong>Area = ½ × base × height</strong></p>
+    </div>
+    <label for="base">Enter base (cm):</label>
+    <input type="number" id="base" placeholder="e.g. 6">
+    <label for="height">Enter height (cm):</label>
+    <input type="number" id="height" placeholder="e.g. 4">
+    <button onclick="drawTriangle()">Calculate & Visualize</button>
+    <canvas id="canvas" width="500" height="400"></canvas>
+    <div class="output" id="result"></div>
+  </div>
+  <script>
+    function drawTriangle() {
+      const base = parseFloat(document.getElementById('base').value);
+      const height = parseFloat(document.getElementById('height').value);
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (isNaN(base) || isNaN(height) || base <= 0 || height <= 0) {
+        document.getElementById('result').innerText = '❌ Please enter valid values.';
+        return;
+      }
+
+      const scale = 30;
+      const scaledB = base * scale;
+      const scaledH = height * scale;
+      const startX = (canvas.width - scaledB) / 2;
+      const startY = canvas.height - 60;
+
+      // Triangle
+      ctx.beginPath();
+      ctx.moveTo(startX, startY);
+      ctx.lineTo(startX + scaledB / 2, startY - scaledH);
+      ctx.lineTo(startX + scaledB, startY);
+      ctx.closePath();
+      ctx.strokeStyle = "#58a6ff";
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      // Perpendicular height line
+      ctx.beginPath();
+      ctx.moveTo(startX + scaledB / 2, startY - scaledH);
+      ctx.lineTo(startX + scaledB / 2, startY);
+      ctx.strokeStyle = "yellow";
+      ctx.setLineDash([5, 5]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Labels
+      ctx.fillStyle = "#f0f6fc";
+      ctx.fillText("Base = " + base + " cm", startX + scaledB / 2 - 30, startY + 20);
+      ctx.fillText("Height = " + height + " cm", startX + scaledB / 2 + 10, startY - scaledH / 2);
+
+      const area = 0.5 * base * height;
+      document.getElementById('result').innerText = `✅ Area = ${area.toFixed(2)} cm²`;
+    }
+  </script>
+</body>
+</html>

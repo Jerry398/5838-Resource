@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Circle Visualizer</title>
+  <style>
+    body { background: #0d1117; color: #f0f6fc; font-family: 'Segoe UI', sans-serif; padding: 2rem; }
+    h1 { color: #58a6ff; text-align: center; }
+    .container { background: #161b22; padding: 2rem; border-radius: 10px; max-width: 720px; margin: auto; }
+    label, input, button { display: block; margin: 1rem 0; width: 100%; max-width: 300px; }
+    input { background: #21262d; border: none; color: white; padding: 0.5rem; border-radius: 5px; }
+    button { background: #238636; color: white; border: none; padding: 0.7rem; border-radius: 5px; cursor: pointer; }
+    .result, .formula, .definition { margin-top: 1rem; padding: 1rem; background: #21262d; border-radius: 5px; }
+    canvas { background: #0d1117; display: block; margin: 2rem auto 1rem; border: 1px solid #58a6ff; }
+  </style>
+</head>
+<body>
+  <h1>⚪ Circle Visualizer</h1>
+  <div class="container">
+    <div class="definition">
+      <p><strong>What is a Circle?</strong></p>
+      <p>A circle is a 2D shape where every point on the boundary is equidistant from a fixed center point. Key properties include:</p>
+      <ul>
+        <li><strong>Radius (r)</strong>: Distance from center to any point on the circle</li>
+        <li><strong>Diameter (D)</strong>: Distance across the circle, passing through the center (2 × radius)</li>
+        <li><strong>Circumference</strong>: Perimeter around the circle (π × D)</li>
+      </ul>
+    </div>
+    <div class="formula">📘 Area = π × r² | Circumference = 2πr</div>
+    <label for="radius">Enter radius (cm):</label>
+    <input type="number" id="radius" placeholder="e.g. 5"/>
+    <button onclick="drawCircle()">Calculate & Visualize</button>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function drawCircle() {
+      const r = parseFloat(document.getElementById('radius').value);
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (isNaN(r) || r <= 0) {
+        document.getElementById('result').innerText = '❌ Please enter a valid radius greater than 0.';
+        return;
+      }
+
+      const scaledR = r * 10;
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+
+      // Draw circle
+      ctx.beginPath();
+      ctx.arc(cx, cy, scaledR, 0, 2 * Math.PI);
+      ctx.strokeStyle = "#58a6ff";
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      // Draw radius line
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + scaledR, cy);
+      ctx.strokeStyle = "#00ffcc";
+      ctx.setLineDash([5, 3]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = "#00ffcc";
+      ctx.fillText("Radius (r)", cx + scaledR / 2, cy - 10);
+
+      // Draw diameter
+      ctx.beginPath();
+      ctx.moveTo(cx - scaledR, cy);
+      ctx.lineTo(cx + scaledR, cy);
+      ctx.strokeStyle = "yellow";
+      ctx.setLineDash([4, 4]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = "yellow";
+      ctx.fillText("Diameter (D)", cx - 50, cy + 20);
+
+      // Draw circumference arc segment
+      ctx.beginPath();
+      ctx.arc(cx, cy, scaledR, 0, Math.PI / 3);
+      ctx.strokeStyle = "#ff66cc";
+      ctx.stroke();
+      ctx.fillStyle = "#ff66cc";
+      ctx.fillText("Arc (∝ Circumference)", cx + scaledR * Math.cos(Math.PI / 6), cy - scaledR * Math.sin(Math.PI / 6) - 10);
+
+      const area = Math.PI * r * r;
+      const circumference = 2 * Math.PI * r;
+      document.getElementById('result').innerText = `✅ Area = ${area.toFixed(2)} cm² | Circumference = ${circumference.toFixed(2)} cm`;
+    }
+  </script>
+</body>
+</html>

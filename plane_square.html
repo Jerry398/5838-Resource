@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Square Visualizer</title>
+  <style>
+    body { background: #0d1117; color: #f0f6fc; font-family: 'Segoe UI', sans-serif; padding: 2rem; }
+    h1 { color: #58a6ff; text-align: center; }
+    .container { background: #161b22; padding: 2rem; border-radius: 10px; max-width: 720px; margin: auto; }
+    label, input, button { display: block; margin: 1rem 0; width: 100%; max-width: 300px; }
+    input { background: #21262d; border: none; color: white; padding: 0.5rem; border-radius: 5px; }
+    button { background: #238636; color: white; border: none; padding: 0.7rem; border-radius: 5px; cursor: pointer; }
+    .result, .formula, .definition { margin-top: 1rem; padding: 1rem; background: #21262d; border-radius: 5px; }
+    canvas { background: #0d1117; display: block; margin: 2rem auto 1rem; border: 1px solid #58a6ff; }
+  </style>
+</head>
+<body>
+  <h1>🟦 Square Visualizer</h1>
+  <div class="container">
+    <div class="definition">
+      <p><strong>What is a Square?</strong></p>
+      <p>A square is a 2D shape with 4 equal sides and all right angles. The area and perimeter can be calculated by:</p>
+      <ul>
+        <li><strong>Area</strong> = side²</li>
+        <li><strong>Perimeter</strong> = 4 × side</li>
+      </ul>
+    </div>
+    <div class="formula">📘 Area = s² | Perimeter = 4s</div>
+    <label for="side">Enter side length (cm):</label>
+    <input type="number" id="side" placeholder="e.g. 5"/>
+    <button onclick="drawSquare()">Calculate & Visualize</button>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <div class="result" id="result"></div>
+  </div>
+  <script>
+    function drawSquare() {
+      const s = parseFloat(document.getElementById('side').value);
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (isNaN(s) || s <= 0) {
+        document.getElementById('result').innerText = '❌ Please enter a valid side length.';
+        return;
+      }
+
+      const scale = 30;
+      const size = s * scale;
+      const startX = (canvas.width - size) / 2;
+      const startY = (canvas.height - size) / 2;
+
+      ctx.beginPath();
+      ctx.rect(startX, startY, size, size);
+      ctx.strokeStyle = "#58a6ff";
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      ctx.fillStyle = "#f0f6fc";
+      ctx.fillText("Side = " + s + " cm", startX + size / 2 - 40, startY - 10);
+
+      const area = s * s;
+      const perimeter = 4 * s;
+      document.getElementById('result').innerText = `✅ Area = ${area.toFixed(2)} cm² | Perimeter = ${perimeter.toFixed(2)} cm`;
+    }
+  </script>
+</body>
+</html>

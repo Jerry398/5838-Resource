@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🌐 Sphere Visualizer</title>
+  <style>
+    body {
+      background: #0d1117;
+      color: #f0f6fc;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 2rem;
+      margin: 0;
+    }
+    .container {
+      background: #161b22;
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 1000px;
+      margin: auto;
+    }
+    h1 {
+      color: #58a6ff;
+      text-align: center;
+    }
+    input, button {
+      margin: 1rem 0;
+      padding: 0.6rem;
+      width: 100%;
+      max-width: 300px;
+      border-radius: 5px;
+      border: none;
+    }
+    input {
+      background: #21262d;
+      color: white;
+    }
+    button {
+      background: #238636;
+      color: white;
+      cursor: pointer;
+    }
+    .output, .info {
+      background: #21262d;
+      padding: 1rem;
+      margin-top: 1rem;
+      border-radius: 5px;
+    }
+    svg {
+      display: block;
+      margin: 2rem auto;
+    }
+    .formula {
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌐 Sphere Visualizer</h1>
+    <div class="info">
+      <p><strong>What is a Sphere?</strong></p>
+      <p>A sphere is a perfectly round 3D object in which every point on the surface is the same distance from the center.</p>
+      <ul>
+        <li>⚪ <strong>Symmetry</strong>: Uniform in all directions</li>
+        <li class="formula">📦 <strong>Volume</strong> = (4/3) × π × r³</li>
+        <li class="formula">🧮 <strong>Surface Area</strong> = 4 × π × r²</li>
+      </ul>
+    </div>
+
+    <label for="radius">Enter radius (cm):</label>
+    <input type="number" id="radius" placeholder="e.g. 5" />
+    <button onclick="calculateSphere()">Calculate & Visualize</button>
+
+    <div id="svg-sphere"></div>
+    <div class="output" id="result"></div>
+  </div>
+
+  <script>
+    function calculateSphere() {
+      const r = parseFloat(document.getElementById('radius').value);
+      const output = document.getElementById('result');
+      const svgDiv = document.getElementById('svg-sphere');
+
+      if (isNaN(r) || r <= 0) {
+        output.innerText = "❌ Please enter a valid positive radius.";
+        svgDiv.innerHTML = "";
+        return;
+      }
+
+      const pi = Math.PI;
+      const volume = (4/3) * pi * r ** 3;
+      const surfaceArea = 4 * pi * r ** 2;
+      output.innerText = `✅ Volume = ${volume.toFixed(2)} cm³ | Surface Area = ${surfaceArea.toFixed(2)} cm²`;
+
+      const svg = `
+        <svg width="800" height="300">
+          <!-- Left: Sphere Section View -->
+          <g transform="translate(100, 20)">
+            <circle cx="100" cy="120" r="${r * 10}" fill="#58a6ff" opacity="0.7"/>
+            <line x1="100" y1="120" x2="${100 + r * 10}" y2="120" stroke="#f0f6fc" stroke-dasharray="4"/>
+            <text x="${100 + r * 10 + 5}" y="125" fill="#f0f6fc" font-size="12">r = ${r} cm</text>
+            <text x="70" y="115" fill="#f0f6fc" font-size="12">Cross-section View</text>
+          </g>
+
+          <!-- Right: Sphere Projection -->
+          <g transform="translate(400, 20)">
+            <circle cx="100" cy="120" r="${r * 10}" fill="url(#grad)" stroke="#58a6ff" stroke-width="2"/>
+            <defs>
+              <radialGradient id="grad" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" style="stop-color:#58a6ff; stop-opacity:0.8" />
+                <stop offset="100%" style="stop-color:#0d1117; stop-opacity:0.2" />
+              </radialGradient>
+            </defs>
+            <text x="60" y="115" fill="#f0f6fc" font-size="12">Sphere (shaded)</text>
+          </g>
+        </svg>
+      `;
+      svgDiv.innerHTML = svg;
+    }
+  </script>
+</body>
+</html>

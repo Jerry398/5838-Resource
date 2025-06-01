@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🧭 Angle Types</title>
+  <style>
+    body {
+      background-color: #0d1117;
+      color: #f0f6fc;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      color: #58a6ff;
+    }
+    .angle-box {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    .angle-card {
+      background: #161b22;
+      padding: 1rem;
+      border-radius: 10px;
+      width: 280px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+    }
+    .angle-card canvas {
+      margin-top: 1rem;
+      background-color: #21262d;
+      border-radius: 5px;
+    }
+    h2 {
+      color: #79c0ff;
+    }
+    p {
+      color: #c9d1d9;
+    }
+    .input-card {
+      max-width: 300px;
+      margin: 2rem auto;
+      background: #161b22;
+      padding: 1.5rem;
+      border-radius: 10px;
+      text-align: center;
+    }
+    input[type="number"] {
+      padding: 0.5rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: none;
+      width: 80px;
+      margin: 0.5rem 0;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      background-color: #238636;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #angleOutput {
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧭 Types of Angles</h1>
+  <div class="input-card">
+    <h2>Angle Classifier</h2>
+    <p>Enter an angle in degrees to see its classification and shape</p>
+    <input type="number" id="userAngle" placeholder="0-360" min="0" max="360" />
+    <br>
+    <button onclick="classifyAngle()">Draw & Classify</button>
+    <canvas id="userCanvas" width="200" height="200"></canvas>
+    <div id="angleOutput"></div>
+  </div>
+
+  <div class="angle-box">
+    <div class="angle-card">
+      <h2>Acute Angle</h2>
+      <p>Less than 90°</p>
+      <canvas id="acute" width="200" height="200"></canvas>
+    </div>
+    <div class="angle-card">
+      <h2>Right Angle</h2>
+      <p>Exactly 90°</p>
+      <canvas id="right" width="200" height="200"></canvas>
+    </div>
+    <div class="angle-card">
+      <h2>Obtuse Angle</h2>
+      <p>Greater than 90° but less than 180°</p>
+      <canvas id="obtuse" width="200" height="200"></canvas>
+    </div>
+    <div class="angle-card">
+      <h2>Straight Angle</h2>
+      <p>Exactly 180°</p>
+      <canvas id="straight" width="200" height="200"></canvas>
+    </div>
+    <div class="angle-card">
+      <h2>Reflex Angle</h2>
+      <p>Greater than 180° but less than 360°</p>
+      <canvas id="reflex" width="200" height="200"></canvas>
+    </div>
+  </div>
+
+  <script>
+    function drawAngle(id, degrees, label) {
+      const canvas = document.getElementById(id);
+      const ctx = canvas.getContext("2d");
+      const cx = 100, cy = 100, r = 70;
+      const rad = degrees * Math.PI / 180;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + r, cy);
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + r * Math.cos(rad), cy - r * Math.sin(rad));
+      ctx.strokeStyle = "#58a6ff";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, 30, 0, -rad, rad > 0 ? false : true);
+      ctx.strokeStyle = "#ffa657";
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      ctx.fillStyle = "#f0f6fc";
+      ctx.font = "14px Segoe UI";
+      ctx.fillText(label, cx + 10, cy - 40);
+    }
+
+    function classifyAngle() {
+      const val = parseFloat(document.getElementById("userAngle").value);
+      const out = document.getElementById("angleOutput");
+
+      if (isNaN(val) || val < 0 || val > 360) {
+        out.innerHTML = "<p style='color:red;'>Please enter a valid angle between 0° and 360°.</p>";
+        return;
+      }
+
+      let type = "";
+      if (val > 0 && val < 90) type = "Acute Angle";
+      else if (val === 90) type = "Right Angle";
+      else if (val > 90 && val < 180) type = "Obtuse Angle";
+      else if (val === 180) type = "Straight Angle";
+      else if (val > 180 && val < 360) type = "Reflex Angle";
+      else if (val === 360 || val === 0) type = "Full Rotation (360°)";
+
+      drawAngle("userCanvas", val, `${val}°`);
+      out.innerHTML = `<p><strong>Type:</strong> ${type}</p>`;
+    }
+
+    drawAngle("acute", 45, "45°");
+    drawAngle("right", 90, "90°");
+    drawAngle("obtuse", 135, "135°");
+    drawAngle("straight", 180, "180°");
+    drawAngle("reflex", 270, "270°");
+  </script>
+</body>
+</html>

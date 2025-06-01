@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Linear Functions</title>
+  <style>
+    body { background: #0d1117; color: #f0f6fc; font-family: 'Segoe UI', sans-serif; padding: 2rem;}
+    .wrap { max-width: 600px; margin: auto;}
+    h1 { color: #58a6ff; text-align: center;}
+    .desc { color: #c9d1d9; margin-bottom: 1rem; text-align: center;}
+    .formula { font-size: 1.3rem; color: #ffdf6c; text-align: center;}
+    .canvas-wrap { display: flex; justify-content: center; }
+    input { background: #21262d; border: 1px solid #444c56; border-radius: 4px; color: #fff; padding: 0.4em;}
+    label { color: #a5b4c5;}
+    .back { margin-top: 2rem; text-align: center;}
+    a { color: #58a6ff; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>📊 Linear Functions</h1>
+    <div class="desc">
+      <b>Definition:</b> A function in the form <span class="formula">y = mx + b</span>, where <b>m</b> is the slope and <b>b</b> is the y-intercept.
+    </div>
+    <div class="desc">
+      <b>Explore:</b> Change the slope and intercept, see how the line moves!
+    </div>
+    <div class="canvas-wrap">
+      <canvas id="graph" width="400" height="300"></canvas>
+    </div>
+    <div style="margin:1em 0;text-align:center;">
+      <label>Slope (m): <input type="number" id="slope" value="1" step="0.1" style="width:60px;"></label>
+      &nbsp;
+      <label>Intercept (b): <input type="number" id="intercept" value="0" step="0.1" style="width:60px;"></label>
+    </div>
+    <div class="back"><a href="functions.html">&larr; Back to Functions Hub</a></div>
+  </div>
+  <script>
+    function drawLine(m, b) {
+      const canvas = document.getElementById("graph");
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      // Axes
+      ctx.strokeStyle = "#444c56";
+      ctx.beginPath();
+      ctx.moveTo(0,150); ctx.lineTo(400,150); // x axis
+      ctx.moveTo(200,0); ctx.lineTo(200,300); // y axis
+      ctx.stroke();
+      // Line y=mx+b
+      ctx.strokeStyle = "#58a6ff"; ctx.lineWidth = 2;
+      ctx.beginPath();
+      let x0=-10, x1=10;
+      let y0=m*x0+b, y1=m*x1+b;
+      ctx.moveTo(20*x0+200, 150-20*y0);
+      ctx.lineTo(20*x1+200, 150-20*y1);
+      ctx.stroke();
+      // label
+      ctx.fillStyle = "#f0f6fc"; ctx.font = "14px Segoe UI";
+      ctx.fillText("y = " + m + "x + " + b, 20, 25);
+    }
+    // init
+    let m=1, b=0;
+    drawLine(m,b);
+    document.getElementById("slope").oninput = e => { m = Number(e.target.value); drawLine(m,b);}
+    document.getElementById("intercept").oninput = e => { b = Number(e.target.value); drawLine(m,b);}
+  </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Other Functions</title>
+  <style>
+    body { background: #0d1117; color: #f0f6fc; font-family: 'Segoe UI', sans-serif; padding: 2rem;}
+    .wrap { max-width: 600px; margin: auto;}
+    h1 { color: #58a6ff; text-align: center;}
+    .desc { color: #c9d1d9; margin-bottom: 1rem; text-align: center;}
+    .formula { font-size: 1.2rem; color: #ffdf6c; text-align: center;}
+    .canvas-wrap { display: flex; justify-content: center;}
+    .back { margin-top: 2rem; text-align: center;}
+    a { color: #58a6ff; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>🌀 Other Functions</h1>
+    <div class="desc">
+      <b>Absolute value, piecewise and more.</b>
+    </div>
+    <div class="desc">
+      <span class="formula">y = |x|</span> — V-shape, always positive.<br>
+      <span class="formula">y = { x if x &gt;= 0, -x if x &lt; 0 }</span>
+    </div>
+    <div class="canvas-wrap">
+      <canvas id="graph" width="400" height="300"></canvas>
+    </div>
+    <div class="back"><a href="functions.html">&larr; Back to Functions Hub</a></div>
+  </div>
+  <script>
+    function drawOther() {
+      const canvas = document.getElementById("graph");
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      // Axes
+      ctx.strokeStyle = "#444c56";
+      ctx.beginPath();
+      ctx.moveTo(0,150); ctx.lineTo(400,150);
+      ctx.moveTo(200,0); ctx.lineTo(200,300);
+      ctx.stroke();
+      // Absolute value y=|x|
+      ctx.strokeStyle = "#58a6ff"; ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(0, 150);
+      for(let px=0; px<=400; px++) {
+        let x = (px-200)/30;
+        let y = Math.abs(x);
+        let py = 150-30*y;
+        if(px===0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+      // label
+      ctx.fillStyle = "#f0f6fc"; ctx.font = "14px Segoe UI";
+      ctx.fillText("y = |x|", 20, 25);
+    }
+    drawOther();
+  </script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🔄 Angle Relationships (Textbook Style)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { background: #0d1117; color: #f0f6fc; font-family: 'Segoe UI', sans-serif; padding: 2rem;}
+    h1 { text-align: center; color: #58a6ff;}
+    .grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-top: 2rem;}
+    .card { background: #161b22; padding: 1rem; border-radius: 10px; width: 280px; text-align: center;}
+    canvas { margin-top: 1rem; background: #21262d; border-radius: 8px;}
+    h2 { color: #79c0ff;}
+    p { color: #c9d1d9;}
+  </style>
+</head>
+<body>
+  <h1>🔄 Angle Relationships</h1>
+  <div class="grid">
+    <div class="card">
+      <h2>Complementary</h2>
+      <p>Two angles summing to 90°</p>
+      <canvas id="complementary" width="200" height="200"></canvas>
+    </div>
+    <div class="card">
+      <h2>Supplementary</h2>
+      <p>Two angles summing to 180°</p>
+      <canvas id="supplementary" width="200" height="200"></canvas>
+    </div>
+    <div class="card">
+      <h2>Vertical</h2>
+      <p>Opposite angles equal</p>
+      <canvas id="vertical" width="200" height="200"></canvas>
+    </div>
+    <div class="card">
+      <h2>Adjacent</h2>
+      <p>Angles next to each other</p>
+      <canvas id="adjacent" width="200" height="200"></canvas>
+    </div>
+  </div>
+  <script>
+    // --- Complementary ---
+    {
+      const ctx = document.getElementById("complementary").getContext("2d");
+      const cx = 100, cy = 150, r = 70;
+      // 区域
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, 50, Math.PI, Math.PI * 1.33, false); // 60°
+      ctx.closePath();
+      ctx.fillStyle = "#58a6ff88";
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, 50, Math.PI * 1.33, Math.PI * 1.5, false); // 30°
+      ctx.closePath();
+      ctx.fillStyle = "#ffa65788";
+      ctx.fill();
+      // 边
+      ctx.strokeStyle = "#f0f6fc"; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx, cy - r); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx - r, cy); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx - r * Math.cos(Math.PI/3), cy - r * Math.sin(Math.PI/3)); ctx.stroke();
+      // 标签
+      ctx.fillStyle = "#f0f6fc"; ctx.font = "bold 17px Segoe UI";
+      ctx.fillText("60°", cx - 70, cy - 10);
+      ctx.fillText("30°", cx - 35, cy - 55);
+      ctx.fillText("90°", cx - 55, cy - 40);
+    }
+    // --- Supplementary ---
+    {
+      const ctx = document.getElementById("supplementary").getContext("2d");
+      const cx = 100, cy = 100, r = 70;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, 50, Math.PI, Math.PI * 1.33, false); // 60°
+      ctx.closePath(); ctx.fillStyle = "#58a6ff88"; ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, 50, Math.PI * 1.33, Math.PI * 2, false); // 120°
+      ctx.closePath(); ctx.fillStyle = "#ffa65788"; ctx.fill();
+      ctx.strokeStyle = "#f0f6fc"; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx - r, cy); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + r, cy); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx - r * Math.cos(Math.PI/3), cy - r * Math.sin(Math.PI/3)); ctx.stroke();
+      // 标签
+      ctx.fillStyle = "#f0f6fc"; ctx.font = "bold 17px Segoe UI";
+      ctx.fillText("60°", cx - 80, cy - 10);
+      ctx.fillText("120°", cx + 45, cy - 15);
+      ctx.fillText("180°", cx - 5, cy - 35);
+    }
+    // --- Vertical ---
+    {
+      const ctx = document.getElementById("vertical").getContext("2d");
+      const cx = 100, cy = 100, r = 70;
+      ctx.strokeStyle = "#58a6ff"; ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(cx - r, cy - r); ctx.lineTo(cx + r, cy + r); ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(cx - r, cy + r); ctx.lineTo(cx + r, cy - r); ctx.stroke();
+      ctx.fillStyle = "#f0f6fc"; ctx.font = "bold 17px Segoe UI";
+      ctx.fillText("∠x", cx - 30, cy - 30);
+      ctx.fillText("∠x", cx + 20, cy + 40);
+      ctx.fillText("Opposite angles", cx - 48, cy + 70);
+    }
+    // --- Adjacent ---
+    {
+      const ctx = document.getElementById("adjacent").getContext("2d");
+      const cx = 100, cy = 150, r = 70;
+      // 角区
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, 50, Math.PI, Math.PI * 1.25, false); // 45°
+      ctx.closePath();
+      ctx.fillStyle = "#58a6ff88"; ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, 50, Math.PI * 1.25, Math.PI * 1.5, false); // 45°
+      ctx.closePath();
+      ctx.fillStyle = "#ffa65788"; ctx.fill();
+      ctx.strokeStyle = "#f0f6fc"; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx - r, cy); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx, cy - r); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx - r * Math.cos(Math.PI/4), cy - r * Math.sin(Math.PI/4)); ctx.stroke();
+      ctx.fillStyle = "#f0f6fc"; ctx.font = "bold 17px Segoe UI";
+      ctx.fillText("∠1", cx - 65, cy - 10);
+      ctx.fillText("∠2", cx - 35, cy - 55);
+      ctx.fillText("Adjacent", cx - 30, cy - 85);
+    }
+  </script>
+</body>
+</html>
